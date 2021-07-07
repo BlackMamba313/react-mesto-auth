@@ -1,0 +1,19 @@
+.auth__btn {
+    max-width: 358px;
+    width:100%;
+    height:50px;
+    background-color: #fff;
+    color:#000;
+    border: none;
+    margin-top: 216px;
+    font-size: 18px;
+    border-radius: 2px;
+}
+
+.auth__btn:focus {
+    outline: none;
+}
+
+.auth__btn:hover {
+    opacity:0.8;
+}
