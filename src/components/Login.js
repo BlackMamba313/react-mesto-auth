@@ -1,47 +1,52 @@
-import {useState} from "react";
+import { useState } from 'react';
 
-export default function Login ({onSubmit}){
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    function handleEmailChange(e){
-        setEmail(e.target.value);
+export default function Login({ onSubmit }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
+  function handlePasswordChange(e) {
+    setPassword(e.target.value);
+  }
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSubmit(email, password);
+  }
 
-    }
-    function handlePasswordChange(e){
-        setPassword(e.target.value);
-    }
-    function handleSubmit(e){
-        e.preventDefault();
-        onSubmit(email,password)
-    }
+  return (
+    <div className="authorization">
+      <h2 className="authorization__title">Вход</h2>
+      <form className="authorization__form" name="login-form" onSubmit={handleSubmit}>
+        <input
+          required
+          minLength="5"
+          onChange={handleEmailChange}
+          value={email}
+          maxLength="40"
+          type="email"
+          name="login-email"
+          placeholder="Email"
+          id="login-email"
+          className="authorization__input"
+        />
 
-    return(
-       <div className="authorization">
-           <h2 className="authorization__title">Вход</h2>
-           <form className="authorization__form" name="login-form" onSubmit={handleSubmit}>
-               <input required
-                      minLength="5"
-                      onChange={handleEmailChange}
-                      value={email}
-                      maxLength="40"
-                      type="email"
-                      name="login-email"
-                      placeholder="Email"
-                      id="login-email"
-                      className="authorization__input"/>
-
-               <input required
-                      minLength="5"
-                      onChange={handlePasswordChange}
-                      value={password}
-                      maxLength="40"
-                      type="password"
-                      name="login-password"
-                      placeholder="Пароль"
-                      id="login-password"
-                      className="authorization__input"/>
-               <button type="submit" className="authorization__button">Войти</button>
-           </form>
-       </div>
-    )
+        <input
+          required
+          minLength="5"
+          onChange={handlePasswordChange}
+          value={password}
+          maxLength="40"
+          type="password"
+          name="login-password"
+          placeholder="Пароль"
+          id="login-password"
+          className="authorization__input"
+        />
+        <button type="submit" className="authorization__button">
+          Войти
+        </button>
+      </form>
+    </div>
+  );
 }
