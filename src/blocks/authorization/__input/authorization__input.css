@@ -1,4 +1,4 @@
-.auth__input {
+.authorization__input{
     border:none;
     border-bottom: 2px solid rgb(204,204,204);
     color: #fff;
@@ -7,8 +7,12 @@
     padding-bottom: 5px;
     margin-bottom: 30px;
     background: #000000;
-}
 
-.auth__input:focus {
+}
+.authorization__input:focus{
     outline: none;
+
+}
+.authorization__input:last-of-type{
+    margin-bottom: 0;
 }

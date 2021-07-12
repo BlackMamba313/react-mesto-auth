@@ -1,70 +1,51 @@
-const BASE_URL = 'https://auth.nomoreparties.co';
 class Auth {
-    constructor({baseUrl}) {
+    constructor({ baseUrl, headers }) {
         this._baseUrl = baseUrl;
+        this._headers = headers;
     }
 
-    register = (email, password) => {
-        return fetch(`${BASE_URL}/signup`, {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+    register( email,password ) {
+        return fetch(`${this._baseUrl}/signup`, {
+            method: 'POST',
+            headers: this._headers,
             body: JSON.stringify({
-                "email": email,
-                "password": password
+                password: password,
+                email: email
             })
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(new Error(`Что-то пошло не так ${res.status}`))
-            })
+            .then((res) => res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`));
     }
-    login = (email, password) => {
-        return fetch(`${BASE_URL}/signin`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "email": email,
-                "password": password
-            })
-        })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(new Error(`Что-то пошло не так: ${res.status}`))
-            })
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem('jwt', data.token);
-                    return data;
-                }
-            })
 
+    login( email, password ) {
+        return fetch(`${this._baseUrl}/signin`, {
+            method: 'POST',
+            headers: this._headers,
+            body: JSON.stringify({
+                password: password,
+                email: email
+            })
+        })
+            .then((res) => res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`));
     }
-    checkToken = (jwt) => {
-        return fetch(`${BASE_URL}/users/me`, {
-            method: "GET",
+
+    getToken() {
+        const jwt = localStorage.getItem('jwt');
+        return fetch(`${this._baseUrl}/users/me`, {
+            method: 'GET',
             headers: {
-                "Content-Type": "application/json",
+                ...this._headers,
                 "Authorization": `Bearer ${jwt}`
-            },
+            }
         })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                }
-                return Promise.reject(new Error(`Что-то пошло не так ${res.status}`))
-            })
+            .then(res => res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`));
     }
 }
-    const auth = new Auth({
+
+const auth = new Auth({
     baseUrl: 'https://auth.nomoreparties.co',
-});
-    export default auth;
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+
+export default auth;
