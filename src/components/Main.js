@@ -44,7 +44,7 @@ function Main(props) {
               key={index}
               onCardClick={props.onCardClick}
               onCardLike={props.onCardLike}
-              onDeleteClick={props.onDeleteClick}
+              onCardDelete={props.onCardDelete}
             />
           ))}
         </section>

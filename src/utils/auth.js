@@ -12,7 +12,7 @@ class Auth {
         password: password,
         email: email,
       }),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`)));
+    }).then(this._checkRequestResult);
   }
 
   login(email, password) {
@@ -23,7 +23,14 @@ class Auth {
         password: password,
         email: email,
       }),
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`)));
+    }).then(this._checkRequestResult);
+  }
+
+  _checkRequestResult(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`${res.status} ${res.statusText}`);
   }
 
   getToken() {
@@ -34,7 +41,7 @@ class Auth {
         ...this._headers,
         Authorization: `Bearer ${jwt}`,
       },
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`${res.status} ${res.statusText}`)));
+    }).then(this._checkRequestResult);
   }
 }
 

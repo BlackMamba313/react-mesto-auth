@@ -16,7 +16,7 @@ function Card(props) {
   }
 
   function handleDeleteClick() {
-    props.onDeleteClick(props.cardData);
+    props.onCardDelete(props.cardData);
   }
   const cardDeleteButtonClassName = isOwn ? 'elements__delete-btn' : 'elements__delete-btn_hidden';
   const cardLikeButtonClassName = `elements__like-btn ${

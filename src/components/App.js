@@ -7,7 +7,6 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import ClosePopup from './ClosePopup';
 import Login from './Login';
 import InfoToolTip from './InfoTooltip';
 import Register from './Register';
@@ -88,6 +87,7 @@ function App() {
         setIsLoggedIn(true);
         setEmail(email);
         history.push('/');
+        setIsInfoPopupOpen(true);
       })
       .catch((err) => {
         if (err.status === 400) {
@@ -95,6 +95,7 @@ function App() {
         } else if (err.status === 401) {
           console.log('401 - пользователь с email не найден ');
         }
+        setIsInfoPopupOpen(true);
         return console.log('Error: 500');
       });
   }
@@ -200,47 +201,27 @@ function App() {
         />
       </Switch>
       {isLoggedIn && <Footer />}
-      <InfoToolTip isRegSucces={isRegSucces} isOpen={isInfoPopupOpen} onClose={closeAllPopups} />
-      {isEditProfilePopupOpen ? (
-        <ClosePopup>
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
-        </ClosePopup>
-      ) : (
-        ''
-      )}
-      {isAddPlacePopupOpen ? (
-        <ClosePopup>
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddPlaceSubmit}
-          />
-        </ClosePopup>
-      ) : (
-        ''
-      )}
-      {isEditAvatarPopupOpen ? (
-        <ClosePopup>
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-        </ClosePopup>
-      ) : (
-        ''
-      )}
-      {selectedCard.link ? (
-        <ClosePopup>
-          <ImagePopup isOpen={selectedCard.link} card={selectedCard} onClose={closeAllPopups} />
-        </ClosePopup>
-      ) : (
-        ''
-      )}
+      <InfoToolTip isRegSucces={isRegSucces} onClose={closeAllPopups} isOpen={isInfoPopupOpen} />
+
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        onUpdateUser={handleUpdateUser}
+      />
+
+      <AddPlacePopup
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        onAddPlace={handleAddPlaceSubmit}
+      />
+
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        onUpdateAvatar={handleUpdateAvatar}
+      />
+
+      <ImagePopup isOpen={selectedCard.link} card={selectedCard} onClose={closeAllPopups} />
     </CurrentUserContext.Provider>
   );
 }
